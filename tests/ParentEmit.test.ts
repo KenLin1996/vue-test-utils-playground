@@ -1,10 +1,10 @@
 import { mount } from "@vue/test-utils";
 import { describe, test, expect } from "vitest";
-import ParentComponent from "../src/components/ParentComponent.vue";
+import ParentEmit from "../src/components/ParentEmit.vue";
 
-describe("ParentComponent.vue", () => {
+describe("ParentEmit.vue", () => {
   test("updates message when child component emits event", async () => {
-    const wrapper = mount(ParentComponent);
+    const wrapper = mount(ParentEmit);
 
     await wrapper.find("button").trigger("click"); // 觸發子組件按鈕點擊
 
