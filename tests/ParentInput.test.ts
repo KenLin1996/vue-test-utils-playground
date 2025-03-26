@@ -6,10 +6,9 @@ describe("ParentInput", () => {
   test("updates v-model value when typing in input", async () => {
     const wrapper = mount(ParentInput);
 
-    // 確認 input 的初始值為空
     const input = wrapper.find("input");
 
-    // 確保初始為空
+    // 確認 input 的初始值為空
     expect(input.element.value).toBe("");
 
     await input.setValue("Hello Vue Test Utils");
