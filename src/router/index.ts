@@ -9,6 +9,10 @@ const routes = [
     component: () => import("../pages/UserPage.vue"),
     props: true, // 自動將路由參數作為 props 傳遞給組件
   },
+  {
+    path: "/:error(.*)*",
+    component: () => import("../pages/NotFoundPage.vue"),
+  }, // 新增 404 頁面
 ];
 
 const router = createRouter({
@@ -16,5 +20,4 @@ const router = createRouter({
   routes,
 });
 
-// export default router;
 export { router, routes };

@@ -7,6 +7,7 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/try">Try</router-link> |
       <router-link to="/user/123">User 123</router-link>
+      <router-link to="/error">Error Page</router-link>
     </nav>
 
     <router-view />

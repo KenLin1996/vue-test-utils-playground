@@ -1,9 +1,9 @@
 import { mount } from "@vue/test-utils";
 import { createRouter, createMemoryHistory } from "vue-router";
 import { describe, test, expect } from "vitest";
-import { routes } from "../src/router/index.ts";
+import { routes } from "../../src/router/index.ts";
 import { nextTick } from "vue";
-import App from "../src/App.vue";
+import App from "../../src/App.vue";
 
 describe("vue-router", () => {
   test("navigates to About page", async () => {
