@@ -1,25 +1,31 @@
-<script setup lang="ts">
-import Counter from "./components/Counter.vue";
-import HelloWorld from "./components/HelloWorld.vue";
-import MessageCard from "./components/MessageCard.vue";
-import MessageCard2 from "./components/MessageCard2.vue";
-import ParentEmit from "./components/ParentEmit.vue";
-import ParentInput from "./components/ParentInput.vue";
-import UserProfile from "./components/UserProfile.vue";
-import UserList from "./components/UserList.vue";
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <HelloWorld msg="Vite + Vue" />
-  <ParentEmit></ParentEmit>
-  <ParentInput />
-  <UserProfile />
-  <Counter />
-  <div class="card-wrapper" style="display: flex">
-    <MessageCard title="卡片" content="卡片內容"></MessageCard>
-    <MessageCard2 content="s"></MessageCard2>
+  <div>
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/try">Try</router-link> |
+      <router-link to="/user/123">User 123</router-link>
+    </nav>
+
+    <router-view />
   </div>
-  <UserList />
 </template>
 
-<style scoped></style>
+<style scoped>
+nav {
+  background-color: #f8f9fa;
+  padding: 10px;
+}
+
+nav a {
+  margin-right: 10px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+</style>
