@@ -1,25 +1,27 @@
 import { mount } from "@vue/test-utils";
 import { createRouter, createMemoryHistory, Router } from "vue-router";
-import { describe, it, expect, beforeEach } from "vitest";
-import { routes } from "../../src/router/index.ts";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { routes } from "../src/router/index.ts";
 import { nextTick } from "vue";
-import App from "../../src/App.vue";
-import { setActivePinia, createPinia } from "pinia";
-import { useUserStore } from "../../src/stores/userStore";
+import App from "../src/App.vue";
+import { setActivePinia, createPinia, Pinia } from "pinia"; // 引入 Pinia 和 Pinia 型別
+import { useUserStore } from "../src/stores/userStore";
 
 describe("Router Guard", () => {
   let router: Router;
+  let pinia: Pinia; // 為 pinia 設定型別
 
   beforeEach(() => {
-    setActivePinia(createPinia()); // 設定 Pinia
-    const userStore = useUserStore();
-    // 創建路由並設置守衛
+    pinia = createPinia(); // 每次測試前創建新的 Pinia 實例
+    setActivePinia(pinia); // 設置新的 Pinia 實例
+
     router = createRouter({
       history: createMemoryHistory(),
       routes,
     });
 
-    // 模擬認證邏輯
+    const userStore = useUserStore();
+    // 創建路由並設置守衛
     router.beforeEach((to, from, next) => {
       if (to.meta.requiresAuth && !userStore.isAuthenticated) {
         next("/login");
@@ -29,13 +31,17 @@ describe("Router Guard", () => {
     });
   });
 
+  afterEach(() => {
+    pinia = null as any; // 清除 Pinia 狀態，確保測試之間沒有污染
+  });
+
   it("未登入時，應該被導向 /login", async () => {
     const userStore = useUserStore();
     userStore.isAuthenticated = false; // 模擬未登入
 
     const wrapper = mount(App, {
       global: {
-        plugins: [router],
+        plugins: [router, pinia],
       },
     });
 
@@ -53,7 +59,7 @@ describe("Router Guard", () => {
 
     const wrapper = mount(App, {
       global: {
-        plugins: [router],
+        plugins: [router, pinia],
       },
     });
 
@@ -62,7 +68,7 @@ describe("Router Guard", () => {
     await nextTick();
 
     // 驗證是否能進入 UserPage
-    expect(wrapper.html()).toContain("User Page"); // 假設 UserPage 中有這段文字
-    expect(wrapper.html()).toContain("User ID: 123"); // 假設 UserPage 顯示 ID
+    expect(wrapper.html()).toContain("User Page");
+    expect(wrapper.html()).toContain("User ID: 123");
   });
 });

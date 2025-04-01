@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useUserStore } from "./stores/userStore";
+const userStore = useUserStore();
+</script>
 
 <template>
   <div>
@@ -6,7 +9,10 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/try">Try</router-link> |
-      <router-link to="/user/123">User 123</router-link>
+      <router-link to="/user/123">{{
+        userStore.isAuthenticated ? "User 123" : "尚未登入"
+      }}</router-link>
+      <router-link to="/profile">Profile</router-link>
       <router-link to="/error">Error Page</router-link>
     </nav>
 

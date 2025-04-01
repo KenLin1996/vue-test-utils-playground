@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useUserStore } from "../stores/userStore";
 
 const routes = [
   { path: "/", component: () => import("../pages/HomePage.vue") },
@@ -10,6 +11,8 @@ const routes = [
     props: true, // 自動將路由參數作為 props 傳遞給組件
     meta: { requiresAuth: true }, // 添加 meta.requiresAuth
   },
+  { path: "/profile", component: () => import("../pages/ProfilePage.vue") },
+
   { path: "/login", component: () => import("../pages/LoginPage.vue") },
   {
     path: "/:error(.*)*",
@@ -23,9 +26,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = false;
+  const userStore = useUserStore();
 
-  if (to.meta.requiresAuth && !isAuthenticated) {
+  if (to.meta.requiresAuth && !userStore.isAuthenticated) {
     next("/login"); // 如果需要登入但沒登入，導向 login
   } else {
     next();
